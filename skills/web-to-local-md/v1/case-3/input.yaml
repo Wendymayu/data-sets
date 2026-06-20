@@ -1,0 +1,8 @@
+skill: web-to-local-md
+args: "https://tech.meituan.com/2026/05/07/Agent-AI-Coding.html"
+description: "美团技术团队 — 用Agent评测思路管理AI Coding（31万行代码AI重构实践）"
+site_type: tech-blog
+language: zh
+priority: high
+difficulty: medium
+strategy: B

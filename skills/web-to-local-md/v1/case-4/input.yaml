@@ -1,0 +1,9 @@
+skill: web-to-local-md
+args: "https://www.infoq.cn/article/C9L0B5pMbKLOTiiUeYk7"
+description: "InfoQ 中文 — 阿里云可观测智能化探索与实践（AIOps 异常检测与故障根因定位）"
+site_type: tech-blog
+language: zh
+priority: high
+difficulty: hard
+strategy: B
+note: "InfoQ 部分页面有 SSR HTML，Strategy B 可提取；纯 SPA 页面（如 case-27）仍无法提取"

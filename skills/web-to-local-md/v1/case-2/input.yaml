@@ -1,0 +1,8 @@
+skill: web-to-local-md
+args: "https://www.alibabacloud.com/help/zh/opentelemetry/use-cases/alibaba-cloud-end-to-end-link-tracing-best-practices"
+description: "阿里云端到端链路追踪最佳实践 — OpenTelemetry 可观测性文档"
+site_type: cloud-docs
+language: zh
+priority: high
+difficulty: medium
+strategy: B

@@ -1,0 +1,9 @@
+skill: web-to-local-md
+args: "https://juejin.cn/post/7622177349912952878"
+description: "掘金 — JetBrains Code With Me 停服：AI Coding 冲击下的工具变革"
+site_type: tech-blog
+language: zh
+priority: medium
+difficulty: hard
+strategy: B
+note: "掘金部分文章有 SSR HTML，Strategy B 可提取文字内容。图片需手动下载（byteimg CDN 签名 URL，脚本 regex 未覆盖 .awebp 格式）"

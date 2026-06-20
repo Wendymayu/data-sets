@@ -1,0 +1,10 @@
+skill: web-to-local-md
+args: "https://javaguide.cn/ai/interview-questions/llm-interview-questions.html"
+description: "JavaGuide AI 专栏 — 大模型基础面试题（Token/上下文/API调用/结构化输出/评测）"
+site_type: vuepress-docs
+language: zh
+priority: high
+difficulty: easy
+strategy: A
+github_repo: "Snailclimb/JavaGuide"
+github_docs_path: "docs"

@@ -1,0 +1,9 @@
+skill: web-to-local-md
+args: "https://aws.amazon.com/cn/blogs/china/practical-guide-to-building-agentic-ai-applications-for-aws-china-region/"
+description: "AWS 中国博客 — 亚马逊云科技中国区构建 Agentic AI 应用实践指南（Strands Agents SDK + DeepResearch 架构）"
+site_type: tech-blog
+language: zh
+priority: high
+difficulty: hard
+strategy: B
+note: "AWS 博客图片嵌套在 WordPress <table><td><figure><img> 中，需识别 image-table 并提取为独立图片引用；CDN 为 CloudFront；25 个代码块 (powershell)；17 张架构图"

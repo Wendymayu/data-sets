@@ -1,0 +1,8 @@
+skill: web-to-local-md
+args: "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+description: "Anthropic 工程博客 — Demystifying Evals for AI Agents 评估指南"
+site_type: engineering-blog
+language: en
+priority: high
+difficulty: medium
+strategy: B
