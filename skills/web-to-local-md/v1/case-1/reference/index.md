@@ -103,7 +103,7 @@ Once you have a set of pass-or-fail tests for validating the key *outcomes* of a
 
 Consider a coding task where the agent must fix an authentication bypass vulnerability. As shown in the illustrative YAML file below, one could evaluate this agent using both graders and metrics.
 
-```
+```yaml
 task:
   id: "fix-auth-bypass_1"
   desc: "Fix authentication bypass when password field is empty and ..."
@@ -147,7 +147,7 @@ Success for conversational agents can be multidimensional: is the ticket resolve
 
 Consider a support task where the agent must handle a refund for a frustrated customer.
 
-```
+```yaml
 graders:
   - type: llm_rubric
     rubric: prompts/support_quality.md
