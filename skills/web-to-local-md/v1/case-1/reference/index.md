@@ -1,3 +1,7 @@
+# Demystifying Evals for AI Agents
+
+<small style="color:gray">2026-01-09</small>
+
 ## Introduction
 
 Good evaluations help teams ship AI agents more confidently. Without them, it’s easy to get stuck in reactive loops—catching issues only in production, where fixing one failure creates others. Evals make problems and behavioral changes visible before they affect users, and their value compounds over the lifecycle of an agent.
@@ -131,8 +135,6 @@ task:
         - time_to_last_token
 ```
 
-Copy
-
 Note that this example showcases the full range of available graders for illustration. In practice, coding evaluations typically rely on unit tests for correctness verification and an LLM rubric for assessing overall code quality, with additional graders and metrics added only as needed.
 
 ### Evaluating conversational agents
@@ -176,8 +178,6 @@ tracked_metrics:
       - output_tokens_per_sec
       - time_to_last_token
 ```
-
-Copy
 
 As in our coding agent example, this task showcases multiple grader types for illustration. In practice, conversational agent evaluations typically use model-based graders to assess both communication quality and goal completion, because many tasks—like answering a question—may have multiple “correct” solutions.
 
