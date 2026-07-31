@@ -32,13 +32,20 @@ def normalize(answer: str) -> str:
 
 
 def score(prediction: str, gold: str) -> bool:
-    """归一后预测 == 金标，或金标为预测子串即判对。
+    """归一后预测 == 金标即对；否则按金标 token 数判定：
 
-    已知瑕疵：短金标（如 "1"）会子串误匹配无关预测（如 "100"）。首版接受，
-    接真数据时对齐官方 scorer。
+    - 单 token 金标（单词/单数，如 "17"/"paris"）：必须整 token 命中预测
+      （避免 "17" 子串误匹配 "17000"）。
+    - 多 token 金标（短语，如 "the castle"）：金标为预测子串即对
+      （"the castle" in "int the castle day"）。
     """
     np = normalize(prediction)
     ng = normalize(gold)
     if not ng:
         return not np
-    return np == ng or ng in np
+    if np == ng:
+        return True
+    ng_tokens = ng.split()
+    if len(ng_tokens) == 1:
+        return ng in np.split()
+    return ng in np
