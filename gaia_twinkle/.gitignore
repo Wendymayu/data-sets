@@ -1,0 +1,10 @@
+output/
+__pycache__/
+*.pyc
+# GAIA gated 数据（HF license：不得再分发）——raw + 派生 eval 集不提交；
+# smoke 是手造假样本（非 GAIA 数据），可提交。
+data/gaia/
+data/easy/
+data/medium/
+data/hard/
+data/attachments/

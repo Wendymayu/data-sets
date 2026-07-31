@@ -1,0 +1,5 @@
+# 参考克隆（不属于本仓库内容）
+jiuwenclaw/
+__pycache__/
+# 本地虚拟环境
+.venv/

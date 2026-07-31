@@ -1,0 +1,4 @@
+# gaia_twinkle harness 运行依赖（独立 venv，不依赖 twinkle）
+websockets>=14
+pyarrow>=15
+pytest>=8

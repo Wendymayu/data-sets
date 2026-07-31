@@ -1,0 +1,6 @@
+{"task_id":"s1","level":1,"question":"In what year was the Eiffel Tower completed?","ground_truth":"1889"}
+{"task_id":"s2","level":1,"question":"Who wrote the novel 'One Hundred Years of Solitude'?","ground_truth":"Gabriel García Márquez"}
+{"task_id":"s3","level":1,"question":"What is the chemical symbol for the element gold?","ground_truth":"Au"}
+{"task_id":"s4","level":1,"question":"According to the file capitals.csv in your workspace, what is the capital of Japan?","ground_truth":"Tokyo","attachment":"capitals.csv"}
+{"task_id":"s5","level":2,"question":"In the file sales.csv in your workspace, what is the total of the sales column?","ground_truth":"450","attachment":"sales.csv"}
+{"task_id":"s6","level":2,"question":"How many letters are in the capital of France? Answer with just the number.","ground_truth":"5"}
