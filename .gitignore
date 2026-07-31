@@ -3,3 +3,5 @@ jiuwenclaw/
 __pycache__/
 # 本地虚拟环境
 .venv/
+# HF token 文件（download_hf_dataset.py 可读，绝不提交）
+.hf_token

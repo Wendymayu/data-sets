@@ -36,16 +36,31 @@ gaia_twinkle/data/
 python -m pytest gaia_twinkle/tests -v
 ```
 
-## 生成 GAIA eval 集（首次 / 数据更新时）
+## 生成 GAIA eval 集（首次 / 数据更新时 / 换机器）
 
-把 GAIA 数据放到 `gaia_twinkle/data/gaia/`（结构 `2023/{test,validation}/...`），然后：
-```bash
-python -m gaia_twinkle.convert_gaia --preset easy         # L1 无附件
-python -m gaia_twinkle.convert_gaia --preset medium       # L2 无附件
-python -m gaia_twinkle.convert_gaia --preset hard         # L3 无附件
-python -m gaia_twinkle.convert_gaia --preset attachments  # 任意 level 带附件
-# 或手动: --parquet <path> --out <path> --level N --no-attachment|--with-attachment --limit M
-```
+GAIA raw + 派生集都 gitignore、不进 git。新机器从零搭 `data/`（`smoke/` 已 committed，无需下载）：
+
+1. HF token + GAIA 访问（浏览器，一次性）：
+   - https://huggingface.co/settings/tokens → New token (Read) → `hf_xxx`
+   - https://huggingface.co/datasets/gaia-benchmark/GAIA → Request access（auto 秒批）
+
+2. 下载 GAIA raw 到 `gaia_twinkle/data/gaia/`（用仓库根的 `download_hf_dataset.py`，stdlib+curl，绕 Windows+镜像坑）：
+   ```bash
+   python download_hf_dataset.py gaia-benchmark/GAIA --token hf_xxx --out gaia_twinkle/data/gaia
+   # 默认走 hf-mirror.com（国内）；能直连 HF 加 --mirror https://huggingface.co
+   # 重跑跳过已下完文件；再跑一次应得 ok=0 skipped=N failed=0 即完整
+   ```
+
+3. 生成派生 eval 集（从 raw parquet 抽）：
+   ```bash
+   python -m gaia_twinkle.convert_gaia --preset easy         # L1 无附件 -> 42
+   python -m gaia_twinkle.convert_gaia --preset medium       # L2 无附件 -> 66
+   python -m gaia_twinkle.convert_gaia --preset hard         # L3 无附件 -> 19
+   python -m gaia_twinkle.convert_gaia --preset attachments  # 任意 level 带附件 -> 38
+   # 或手动: --parquet <path> --out <path> --level N --no-attachment|--with-attachment --limit M
+   ```
+
+> token 别外泄：`--token` 传或 `$HF_TOKEN`；`./.hf_token` 文件已 gitignore，别提交。raw + 派生集都不进 git。
 
 ## 跑评测
 
