@@ -1,0 +1,603 @@
+{
+  "name": "agent-relevance-evaluator-benchmark",
+  "purpose": "Starter benchmark for validating an Input-Output relevance evaluator",
+  "source": "Hugging Face: seto4/Instructionfollowing",
+  "source_dataset": "seto4/Instructionfollowing",
+  "source_url": "https://huggingface.co/datasets/seto4/Instructionfollowing",
+  "statistics": {
+    "total": 60,
+    "by_sample_type": {
+      "hard_negative": 20,
+      "positive": 20,
+      "strong_negative": 20
+    },
+    "by_label": {
+      "1_relevant": 20,
+      "0_not_relevant": 40
+    }
+  },
+  "schema": {
+    "id": {
+      "type": "string",
+      "description": "样本唯一标识"
+    },
+    "input": {
+      "type": "string",
+      "description": "用户输入、问题或任务描述"
+    },
+    "output": {
+      "type": "string",
+      "description": "LLM / Agent 针对 input 生成的输出"
+    },
+    "label": {
+      "type": "integer",
+      "description": "相关性标签：1=相关，0=不相关"
+    },
+    "sample_type": {
+      "type": "enum",
+      "enum": [
+        "positive",
+        "strong_negative",
+        "hard_negative"
+      ],
+      "description": "positive=相关样本；strong_negative=明显不相关样本；hard_negative=与输入主题相关但没有真正回答用户需求的样本"
+    },
+    "construction": {
+      "type": "string",
+      "description": "样本构造方式，说明该样本是如何生成或处理得到的"
+    },
+    "source_dataset": {
+      "type": "string",
+      "description": "原始数据集来源，用于记录样本的来源和数据溯源信息"
+    }
+  },
+  "labels": {
+    "1": "相关 relevant",
+    "0": "不相关 not relevant"
+  },
+  "limitations": [
+    "This is a silver benchmark: negative labels were constructed by pairing outputs, not independently human-annotated. Do not use it alone to claim evaluator accuracy."
+  ],
+  "samples": [
+    {
+      "id": "pos_001",
+      "input": "Summarize the concept of artificial intelligence.",
+      "output": "Artificial intelligence refers to machines designed to perform tasks that typically require human intelligence.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_002",
+      "input": "Explain why data quality is important.",
+      "output": "High-quality data improves model accuracy, reliability, and overall performance.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_003",
+      "input": "Describe a neural network in simple terms.",
+      "output": "A neural network is a system inspired by the human brain that processes information through connected nodes.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_004",
+      "input": "What is machine learning?",
+      "output": "Machine learning is a method where computers learn patterns from data without explicit programming.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_005",
+      "input": "Define text generation.",
+      "output": "Text generation is the task of producing coherent text based on a given prompt.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_006",
+      "input": "Why is model evaluation necessary?",
+      "output": "Evaluation helps determine how well a model performs on unseen data.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_007",
+      "input": "Explain overfitting.",
+      "output": "Overfitting occurs when a model learns the training data too well and fails to generalize.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_008",
+      "input": "What is a dataset?",
+      "output": "A dataset is a structured collection of data used for analysis or training models.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_009",
+      "input": "Describe supervised learning.",
+      "output": "Supervised learning uses labeled data to train models to make predictions.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_010",
+      "input": "What is an AI model?",
+      "output": "An AI model is a mathematical representation trained to perform specific tasks.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_011",
+      "input": "Explain tokenization.",
+      "output": "Tokenization is the process of breaking text into smaller units called tokens.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_012",
+      "input": "Why is preprocessing important?",
+      "output": "Preprocessing cleans and structures data to improve training efficiency.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_013",
+      "input": "What is inference in AI?",
+      "output": "Inference is the process of using a trained model to make predictions.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_014",
+      "input": "Explain training data.",
+      "output": "Training data is the information used to teach a model how to perform a task.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_015",
+      "input": "What does generalization mean?",
+      "output": "Generalization refers to a model’s ability to perform well on new data.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_016",
+      "input": "Define artificial neural networks.",
+      "output": "Artificial neural networks are computational models inspired by biological neurons.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_017",
+      "input": "What is model deployment?",
+      "output": "Deployment is the process of making a trained model available for use.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_018",
+      "input": "Explain prompt engineering.",
+      "output": "Prompt engineering is the practice of designing inputs to guide model outputs.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_019",
+      "input": "Why are benchmarks useful?",
+      "output": "Benchmarks provide standardized ways to compare model performance.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "pos_020",
+      "input": "What is fine-tuning?",
+      "output": "Fine-tuning adapts a pre-trained model to a specific task using new data.",
+      "label": 1,
+      "sample_type": "positive",
+      "construction": "Original paired instruction-output example",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_001",
+      "input": "Summarize the concept of artificial intelligence.",
+      "output": "A dataset is a structured collection of data used for analysis or training models.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_002",
+      "input": "Explain why data quality is important.",
+      "output": "Supervised learning uses labeled data to train models to make predictions.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_003",
+      "input": "Describe a neural network in simple terms.",
+      "output": "An AI model is a mathematical representation trained to perform specific tasks.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_004",
+      "input": "What is machine learning?",
+      "output": "Tokenization is the process of breaking text into smaller units called tokens.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_005",
+      "input": "Define text generation.",
+      "output": "Preprocessing cleans and structures data to improve training efficiency.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_006",
+      "input": "Why is model evaluation necessary?",
+      "output": "Inference is the process of using a trained model to make predictions.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_007",
+      "input": "Explain overfitting.",
+      "output": "Training data is the information used to teach a model how to perform a task.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_008",
+      "input": "What is a dataset?",
+      "output": "Generalization refers to a model’s ability to perform well on new data.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_009",
+      "input": "Describe supervised learning.",
+      "output": "Artificial neural networks are computational models inspired by biological neurons.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_010",
+      "input": "What is an AI model?",
+      "output": "Deployment is the process of making a trained model available for use.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_011",
+      "input": "Explain tokenization.",
+      "output": "Prompt engineering is the practice of designing inputs to guide model outputs.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_012",
+      "input": "Why is preprocessing important?",
+      "output": "Benchmarks provide standardized ways to compare model performance.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_013",
+      "input": "What is inference in AI?",
+      "output": "Fine-tuning adapts a pre-trained model to a specific task using new data.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_014",
+      "input": "Explain training data.",
+      "output": "Artificial intelligence refers to machines designed to perform tasks that typically require human intelligence.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_015",
+      "input": "What does generalization mean?",
+      "output": "High-quality data improves model accuracy, reliability, and overall performance.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_016",
+      "input": "Define artificial neural networks.",
+      "output": "A neural network is a system inspired by the human brain that processes information through connected nodes.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_017",
+      "input": "What is model deployment?",
+      "output": "Machine learning is a method where computers learn patterns from data without explicit programming.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_018",
+      "input": "Explain prompt engineering.",
+      "output": "Text generation is the task of producing coherent text based on a given prompt.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_019",
+      "input": "Why are benchmarks useful?",
+      "output": "Evaluation helps determine how well a model performs on unseen data.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_strong_020",
+      "input": "What is fine-tuning?",
+      "output": "Overfitting occurs when a model learns the training data too well and fails to generalize.",
+      "label": 0,
+      "sample_type": "strong_negative",
+      "construction": "Output swapped from a different topic",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_001",
+      "input": "Summarize the concept of artificial intelligence.",
+      "output": "Artificial neural networks are computational models inspired by biological neurons.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_002",
+      "input": "Explain why data quality is important.",
+      "output": "Preprocessing cleans and structures data to improve training efficiency.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_003",
+      "input": "Describe a neural network in simple terms.",
+      "output": "Artificial neural networks are computational models inspired by biological neurons.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_004",
+      "input": "What is machine learning?",
+      "output": "Supervised learning uses labeled data to train models to make predictions.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_005",
+      "input": "Define text generation.",
+      "output": "Inference is the process of using a trained model to make predictions.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_006",
+      "input": "Why is model evaluation necessary?",
+      "output": "Benchmarks provide standardized ways to compare model performance.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_007",
+      "input": "Explain overfitting.",
+      "output": "Generalization refers to a model’s ability to perform well on new data.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_008",
+      "input": "What is a dataset?",
+      "output": "Training data is the information used to teach a model how to perform a task.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_009",
+      "input": "Describe supervised learning.",
+      "output": "Machine learning is a method where computers learn patterns from data without explicit programming.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_010",
+      "input": "What is an AI model?",
+      "output": "Deployment is the process of making a trained model available for use.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_011",
+      "input": "Explain tokenization.",
+      "output": "Text generation is the task of producing coherent text based on a given prompt.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_012",
+      "input": "Why is preprocessing important?",
+      "output": "A dataset is a structured collection of data used for analysis or training models.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_013",
+      "input": "What is inference in AI?",
+      "output": "Evaluation helps determine how well a model performs on unseen data.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_014",
+      "input": "Explain training data.",
+      "output": "An AI model is a mathematical representation trained to perform specific tasks.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_015",
+      "input": "What does generalization mean?",
+      "output": "Overfitting occurs when a model learns the training data too well and fails to generalize.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_016",
+      "input": "Define artificial neural networks.",
+      "output": "A neural network is a system inspired by the human brain that processes information through connected nodes.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_017",
+      "input": "What is model deployment?",
+      "output": "An AI model is a mathematical representation trained to perform specific tasks.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_018",
+      "input": "Explain prompt engineering.",
+      "output": "Fine-tuning adapts a pre-trained model to a specific task using new data.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_019",
+      "input": "Why are benchmarks useful?",
+      "output": "Machine learning is a method where computers learn patterns from data without explicit programming.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    },
+    {
+      "id": "neg_hard_020",
+      "input": "What is fine-tuning?",
+      "output": "Evaluation helps determine how well a model performs on unseen data.",
+      "label": 0,
+      "sample_type": "hard_negative",
+      "construction": "Semantically related output from another AI topic, but not an answer to the input",
+      "source_dataset": "seto4/Instructionfollowing"
+    }
+  ]
+}

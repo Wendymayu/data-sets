@@ -1,0 +1,10 @@
+# 评测报告产物（每次跑自动生成）
+reports/
+
+# 含密钥的 .env（.env.example 已提交，真实 .env 不提交）
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
