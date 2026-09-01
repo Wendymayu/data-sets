@@ -70,11 +70,22 @@ python -m gaia_twinkle.run_gaia --eval-set easy --limit 10   # L1 无附件，�
 python -m gaia_twinkle.run_gaia --eval-set medium            # L2 无附件
 python -m gaia_twinkle.run_gaia --eval-set hard              # L3 无附件（最难）
 python -m gaia_twinkle.run_gaia --eval-set attachments       # 带附件题（测文件路径）
-# 自定义: --samples <path> --attachments-dir <path> --per-task-timeout 180 --limit N
+# 自定义: --samples <path> --attachments-dir <path> --per-task-timeout 180 --retries 1 --limit N
 ```
 
-结果写到 `gaia_twinkle/output/<timestamp>/`：`results.jsonl` + `summary.json` + `summary.txt` + `summary.md`
+结果写到 `gaia_twinkle/output/<timestamp>/`：`results.jsonl` + `summary.json` + `summary.md`
 （含准确率 / 逐题表 / 失败模式分布；`accuracy<50%` 时附"得分过低原因分析"）。
+
+> 每题在独立 session 里跑：session_id = `<本次 run 时间戳>-<task_id>`。重跑同一 eval-set
+> 不会续上 twinkle 持久化的旧对话历史（否则 agent 可能复述上次答案 → 分数失真）。
+> session 目录会在 twinkle 的 sessions 目录下累积（每题每 run 一个），定期清理即可。
+
+> **重试**（`--retries`，默认 1）：只有"agent 没给出可用答案"（空答案 = 超时/异常）才重试一次——
+> 判据是"只有重试可解决的题才有重试的意义"，非空答错（如 `$12,000` vs `16000`）**不重试**（否则成
+> best-of-N 刷分）。重试用全新 session_id（`<run_id>-<task_id>-r1`）强制全新开局，不续首轮卡死的 trace。
+> 报告里 `重试：救回 X / 重试 Y` + 逐题"重试"列（救回/仍败/—）摆出来，不静默涨分；`仍败` = 两次都空，
+> 即 persistent infra 失败，正好喂 P2 的"分开 infra/推理失败"。`--retries 0` = 关，留作单次诚实基线 / compare 用。
+> 注意重试会让超时题翻倍占时（每题最多 2×per-task-timeout）。
 
 > 注意：`attachments` 集里大量附件是二进制（pdf/xlsx/png/mp3 等），twinkle 的 `read_file` 当前拒绝二进制
 > —— 这类题会失败（已知 twinkle 能力缺口）。文本附件（csv/txt）能读。随 twinkle 补齐 binary 解析后，此集才有意义。
@@ -97,6 +108,7 @@ python -m gaia_twinkle.run_gaia --eval-set attachments       # 带附件题（�
 - **`--limit N` 快跑**：初次试某集先 `--limit 10`，省时间 / API。
 - **`--concurrency N`**：并发跑 N 题（默认 4），大幅提速；过高会撞 LLM 限流（429），按你的 API 额度调。结果仍按输入顺序写入报告。
 - **`--per-task-timeout`**：纯推理题 60s 够；web 依赖题给 180s+（twinkle 的 `web_search` 慢 / 可能拿不到结果）。
+- **`--retries N`**：空答案/超时题最多重试 N 次（默认 1，全新 session）。偶发抖动（429/网络/agent 换路）能救回；系统性 `web_search` bug 会再超时一次仍空（报告标"仍败"）。`--retries 0` = 单次诚实基线。
 - **难度递进**：easy → medium → hard。分数会逐级掉，符合预期（GAIA L3 对当前模型本就极难）。
 - **`attachments` 单独看**：它混了 L1/L2/L3、难易不分，主要用来验"twinkle 能不能处理附件"这条能力轴；当前因 binary 缺口多数会失败，别拿它当主分数。
 - **自定义**：`--samples <path> --attachments-dir <path>` 可跑任意 jsonl（如自己裁的子集），`--eval-set` 只是预设快捷方式。

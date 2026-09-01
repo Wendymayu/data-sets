@@ -55,6 +55,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--per-task-timeout", type=float, default=300.0)
     p.add_argument("--concurrency", type=int, default=4,
                    help="并发任务数（默认 4；受 LLM 限流制约，过高易 429）")
+    p.add_argument("--retries", type=int, default=1,
+                   help="空答案/超时题最多重试次数（默认 1，全新 session 重试一次；"
+                        "0=关，留作单次诚实基线/compare 用）")
     p.add_argument("--limit", type=int, default=None, help="cap number of tasks (quick run)")
     p.add_argument("--output", default=None)
     return p
@@ -97,13 +100,16 @@ def main(argv: list[str] | None = None) -> int:
     def on_result(r) -> None:
         done[0] += 1
         flag = "✓" if r.correct else "✗"
+        retry = " (retry 救回)" if r.recovered else (" (retry 仍败)" if r.retried else "")
         print(f"[{done[0]}/{total_n}] {flag} {r.task_id}: "
-              f"模型答案={r.prediction!r} 标准答案={r.ground_truth!r} {r.error or ''}")
+              f"模型答案={r.prediction!r} 标准答案={r.ground_truth!r}{retry} {r.error or ''}")
 
     Path(args.workspace_dir).mkdir(parents=True, exist_ok=True)
     results = asyncio.run(run_all(
         samples, client, args.workspace_dir, args.attachments_dir,
         args.per_task_timeout, on_result, args.concurrency,
+        run_id=ts,  # 本次 run 的 session 前缀：每题 session = <ts>-<task_id>，重跑不续旧账
+        retries=args.retries,
     ))
 
     summary = write_report(

@@ -51,17 +51,28 @@ def _build_summary_md(results, summary, meta, per_task_timeout, low_score_thresh
         f"| 时间 | {_md_cell(m.get('timestamp',''))} |",
         f"| 任务数 | {total} |",
         f"| 正确 | {correct} |",
-        f"| **准确率** | **{accuracy:.1%}** |\n",
+        f"| **准确率** | **{accuracy:.1%}** |",
     ]
+    if summary.get("retried"):
+        lines.append(
+            f"| 重试 | 救回 {summary.get('recovered', 0)} / 重试 {summary.get('retried', 0)} |"
+        )
+    lines.append("")
 
     lines.append("## 逐题结果\n")
-    lines.append("| task_id | 正确 | 模型答案 | 标准答案 | 耗时(s) | 错误 |")
-    lines.append("|---|---|---|---|---|---|")
+    lines.append("| task_id | 正确 | 重试 | 模型答案 | 标准答案 | 耗时(s) | 错误 |")
+    lines.append("|---|---|---|---|---|---|---|")
     for r in results:
         d = _to_dict(r)
         ok = "✓" if d.get("correct") else "✗"
+        if d.get("recovered"):
+            rt = "救回"
+        elif d.get("retried"):
+            rt = "仍败"
+        else:
+            rt = "—"
         lines.append(
-            f"| {_md_cell(d.get('task_id',''), 24)} | {ok} | "
+            f"| {_md_cell(d.get('task_id',''), 24)} | {ok} | {rt} | "
             f"{_md_cell(d.get('prediction',''))} | {_md_cell(d.get('ground_truth',''))} | "
             f"{float(d.get('elapsed_s',0) or 0):.1f} | {_md_cell(d.get('error') or '')} |"
         )
@@ -117,7 +128,10 @@ def write_report(
     total = len(results)
     correct = sum(1 for r in results if getattr(r, "correct", False))
     accuracy = (correct / total) if total else 0.0
-    summary = {"total": total, "correct": correct, "accuracy": accuracy}
+    retried = sum(1 for r in results if getattr(r, "retried", False))
+    recovered = sum(1 for r in results if getattr(r, "recovered", False))
+    summary = {"total": total, "correct": correct, "accuracy": accuracy,
+               "retried": retried, "recovered": recovered}
 
     (out / "results.jsonl").write_text(
         "\n".join(json.dumps(_to_dict(r), ensure_ascii=False) for r in results) + ("\n" if results else ""),

@@ -8,8 +8,14 @@ def test_defaults():
     assert ns.attachments_dir == "gaia_twinkle/data/smoke/attachments"
     assert ns.per_task_timeout == 300.0
     assert ns.concurrency == 4
+    assert ns.retries == 1  # 默认重试一次（空答案/超时题）；--retries 0 关
     assert ns.eval_set is None
     assert ns.limit is None
+
+
+def test_retries_override():
+    assert build_parser().parse_args(["--retries", "0"]).retries == 0
+    assert build_parser().parse_args(["--retries", "3"]).retries == 3
 
 
 def test_overrides_and_env(monkeypatch):

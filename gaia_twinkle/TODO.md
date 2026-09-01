@@ -21,7 +21,9 @@
 
 ### P2 — 让指标可信、信号干净
 - [ ] 报告里**分开"infra 失败"与"推理失败"**：现在 `timeout`（web 拿不到结果）淹没推理信号，分数主要在测工具链而非推理。可加"有效推理分"（剔除 infra 失败再算）。
+- [x] **空答案重试一次**（✅ 2026-08-01 已加 `--retries 1`，默认开）：只在"agent 没给出可用答案"（空 prediction = 超时/异常）时重试一次——判据"只有重试可解决的题才有重试的意义"，非空答错（如 `$12,000`）不重试（不刷分）。重试用全新 session（`-r1`）不续首轮卡死 trace。报告标 `救回/仍败`：`仍败`（两次都空）即 persistent infra 失败，正好喂上面那条"分开 infra/推理失败"；`--retries 0` 关=单次基线。注意根因（`web_search` 反爬 P0）没修，重试只是过滤抖动、不治本。
 - [x] 收紧 scorer **子串瑕疵**（✅ 2026-07-31 已修）：单 token 金标需整 token 命中、多 token 金标才用子串——修掉 `gold "17"` 匹配 `pred "17000"` 这类假阳（实测 8/10→7/10）。
+- [x] **每题每 run 独立 session**（✅ 2026-08-01 已修）：session_id = `<run_id>-<task_id>`（run_id 用本次输出时间戳）。之前裸用 task_id 作 session_id → 重跑同一 eval-set 会续上 twinkle 磁盘持久化的旧 ReAct trace + 旧答案（agent 复述 → 飞轮信号失真）。harness 侧隔离，不碰 twinkle。
 
 ### P3（可选）— 字面"数据飞轮"
 - [ ] 若日后要攒数据 fine-tune 专属模型：harness 把失败 case 的 agent trace（工具调用 / 搜索结果 / 模型输出）落盘成训练素材。当前无此组件。
